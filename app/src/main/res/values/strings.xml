@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">SomeFlowChallenge</string>
+    <string name="email_hint">Username</string>
+    <string name="password_hint">Password</string>
+    <string name="phone_hint">Phone Number</string>
+    <string name="password_create_hint">Must be 6+ characters long, with at least 1 each for lowercase and uppercase letter, number, and special character (@#$%^-_!+=)</string>
+    <string name="retype_password_hint">Retype Password</string>
+    <string name="login_button">Login</string>
+    <string name="register_button">Register</string>
+    <string name="forgot_password">Forgot your Password?</string>
+    <string name="company">Vorwärts</string>
+</resources>

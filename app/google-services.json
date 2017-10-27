@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "350415551402",
+    "firebase_url": "https://someflowchallenge.firebaseio.com",
+    "project_id": "someflowchallenge",
+    "storage_bucket": "someflowchallenge.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:350415551402:android:0302894ca62d731e",
+        "android_client_info": {
+          "package_name": "com.jakester.someflowchallenge"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "350415551402-4jec1tavie17h79ora52jlggkbv6fl3a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC_iMzrpxlx2Foz3n3JWd1WOsps6GKN0oA"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
