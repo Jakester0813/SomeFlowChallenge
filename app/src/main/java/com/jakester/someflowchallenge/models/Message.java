@@ -9,8 +9,9 @@ public class Message {
     public String imageUrl;
     public String message;
 
-    public Message(String id, String text){
+    public Message(String id, String url, String text){
         userId = id;
+        imageUrl = url;
         message = text;
     }
 

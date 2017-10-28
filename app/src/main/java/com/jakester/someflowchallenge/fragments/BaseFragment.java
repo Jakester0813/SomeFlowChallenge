@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.google.firebase.FirebaseException;
 import com.google.firebase.FirebaseTooManyRequestsException;
@@ -53,6 +54,8 @@ public class BaseFragment extends Fragment {
                 //     user action.
                 Log.d(TAG, "onVerificationCompleted:" + credential);
                 SharedPrefsManager.getInstance(getActivity()).setSMS(credential.getSmsCode());
+                Toast.makeText(getActivity(), "Registration compeleted!",
+                        Toast.LENGTH_SHORT).show();
                 //signInWithPhoneAuthCredential(credential);
             }
 

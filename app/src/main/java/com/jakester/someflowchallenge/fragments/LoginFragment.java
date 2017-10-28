@@ -142,6 +142,7 @@ public class LoginFragment extends BaseFragment {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
+                            UserManager.getInstance().setUser(task.getResult().getUser());
                             goToChat();
                         } else {
                             // Sign in failed, display a message and update the UI

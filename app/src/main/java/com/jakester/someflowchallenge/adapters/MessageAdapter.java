@@ -1,17 +1,22 @@
 package com.jakester.someflowchallenge.adapters;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.jakester.someflowchallenge.R;
+import com.jakester.someflowchallenge.listeners.MessageLongClickListener;
 import com.jakester.someflowchallenge.models.Message;
 
 import java.math.BigInteger;
@@ -27,6 +32,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
     private List<Message> mMessages;
     private Context mContext;
     private String mUserId;
+    private MessageLongClickListener mListener;
 
     public MessageAdapter(Context context, String userId, List<Message> messages) {
         this.mMessages = messages;
@@ -36,6 +42,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
 
     public void addMessage(Message message){
         this.mMessages.add(message);
+        notifyItemChanged(mMessages.size()-1);
     }
 
     @Override
@@ -57,17 +64,24 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
             holder.imageMe.setVisibility(View.VISIBLE);
             holder.imageOther.setVisibility(View.GONE);
             holder.messageBody.setGravity(Gravity.CENTER_VERTICAL | Gravity.RIGHT);
-            holder.messageBody.setBackgroundColor(mContext.getResources().getColor(R.color.yellow_you));
+            holder.messageText.setBackgroundColor(mContext.getResources().getColor(R.color.yellow_you));
         } else {
             holder.imageOther.setVisibility(View.VISIBLE);
             holder.imageMe.setVisibility(View.GONE);
             holder.messageBody.setGravity(Gravity.CENTER_VERTICAL | Gravity.LEFT);
-            holder.body.setBackgroundColor(mContext.getResources().getColor(R.color.blue_other_person));
+            holder.messageText.setBackgroundColor(mContext.getResources().getColor(R.color.blue_other_person));
         }
-
+        if(!message.getImageUrl().equals("")){
+            holder.mImage.setVisibility(View.VISIBLE);
+            Glide.with(mContext).load(getProfileUrl(message.getImageUrl())).into(holder.mImage);
+        }
         final ImageView profileView = isMe ? holder.imageMe : holder.imageOther;
         Glide.with(mContext).load(getProfileUrl(message.getId())).into(profileView);
         holder.body.setText(message.getMessage());
+    }
+
+    public void setClickListener(MessageLongClickListener itemClickListener) {
+        this.mListener = itemClickListener;
     }
 
     // Create a gravatar image based on the hash value obtained from userId
@@ -90,10 +104,11 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
     }
 
 
-    public class MessageViewHolder extends RecyclerView.ViewHolder  implements View.OnClickListener{
+    public class MessageViewHolder extends RecyclerView.ViewHolder  implements View.OnLongClickListener{
         ImageView imageOther;
         ImageView imageMe;
-        RelativeLayout messageBody;
+        LinearLayout messageBody;
+        RelativeLayout messageText;
         TextView body;
         ImageView mImage;
 
@@ -101,15 +116,21 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
             super(itemView);
             imageOther = (ImageView)itemView.findViewById(R.id.ivProfileOther);
             imageMe = (ImageView)itemView.findViewById(R.id.ivProfileMe);
-            messageBody = (RelativeLayout) itemView.findViewById(R.id.rv_message_body);
+            messageBody = (LinearLayout) itemView.findViewById(R.id.ll_message_body);
+            messageText = (RelativeLayout) itemView.findViewById(R.id.rl_message_text);
             body = (TextView)itemView.findViewById(R.id.tvBody);
             mImage = (ImageView) itemView.findViewById(R.id.iv_image);
             imageMe = (ImageView)itemView.findViewById(R.id.ivProfileMe);
+            body.setOnLongClickListener(this);
         }
 
         @Override
-        public void onClick(View view) {
-            
+        public boolean onLongClick(View view) {
+            if (mListener != null){
+                mListener.onClick(view);
+                return true;
+            }
+            return false;
         }
     }
 }

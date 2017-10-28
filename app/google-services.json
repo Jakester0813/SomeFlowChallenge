@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "350415551402-shr27nek3hnj7b3e15krmq0q4qf2nv2m.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.jakester.someflowchallenge",
+            "certificate_hash": "b3f7d5a17ad8d82eafca39ef133c890992a95ed8"
+          }
+        },
+        {
           "client_id": "350415551402-4jec1tavie17h79ora52jlggkbv6fl3a.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -29,8 +37,13 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "350415551402-4jec1tavie17h79ora52jlggkbv6fl3a.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         },
         "ads_service": {
           "status": 2

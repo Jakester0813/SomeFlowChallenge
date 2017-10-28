@@ -54,7 +54,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:maxLength="7"
+        android:maxLength="10"
         android:inputType="number"
         android:padding="10dp"
         android:hint="@string/phone_hint"
@@ -65,8 +65,9 @@
         android:layout_below="@+id/et_phone_number"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:backgroundTint="@color/colorCompliment"
         android:layout_marginTop="20dp"
         android:text="@string/register_button"
-        android:background="@drawable/button_login_register" />
+        android:background="@drawable/button_flow_challenge" />
 
 </RelativeLayout>
