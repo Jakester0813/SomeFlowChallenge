@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,6 +41,7 @@ public class LoginFragment extends BaseFragment {
 
     EditText mEmailEdit, mPasswordEdit;
     Button mLoginButton;
+    ProgressBar mProgressBar;
     TextView mForgotPasswordText;
 
 
@@ -65,12 +67,14 @@ public class LoginFragment extends BaseFragment {
         mPasswordEdit = (EditText) v.findViewById(R.id.et_password);
         mLoginButton = (Button) v.findViewById(R.id.bt_login);
         mForgotPasswordText = (TextView) v.findViewById(R.id.tv_forgot_password);
-
+        mProgressBar = (ProgressBar) v.findViewById(R.id.pb_login);
         mLoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if((isEmailValid(mEmailEdit.getText().toString()) || isPhoneNumberValid(mEmailEdit.getText().toString()))
                         && isPasswordValid(mPasswordEdit.getText().toString())){
+                    mProgressBar.setVisibility(View.VISIBLE);
+                    mLoginButton.setVisibility(View.INVISIBLE);
                     loginProcess(mEmailEdit.getText().toString(), mPasswordEdit.getText().toString());
                 }
                 else {
@@ -100,6 +104,8 @@ public class LoginFragment extends BaseFragment {
                                 // Sign in success, update UI with the signed-in user's information
                                 Log.d(TAG, "signInWithEmail:success");
                                 UserManager.getInstance().setUser(task.getResult().getUser());
+                                mProgressBar.setVisibility(View.GONE);
+                                mLoginButton.setVisibility(View.VISIBLE);
                                 goToChat();
                             } else {
                                 try
@@ -154,4 +160,6 @@ public class LoginFragment extends BaseFragment {
                     }
                 });
     }
+
+
 }
