@@ -18,6 +18,8 @@ import com.bumptech.glide.Glide;
 import com.jakester.someflowchallenge.R;
 import com.jakester.someflowchallenge.listeners.MessageLongClickListener;
 import com.jakester.someflowchallenge.models.Message;
+import com.jakester.someflowchallenge.viewholders.OtherMessageViewHolder;
+import com.jakester.someflowchallenge.viewholders.YourMessageViewHolder;
 
 import java.math.BigInteger;
 import java.security.MessageDigest;
@@ -27,12 +29,14 @@ import java.util.List;
  * Created by Jake on 10/26/2017.
  */
 
-public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageViewHolder> {
+public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private List<Message> mMessages;
     private Context mContext;
     private String mUserId;
     private MessageLongClickListener mListener;
+    private int YOUR_MESSAGE = 0;
+    private int OTHER_MESSAGE = 1;
 
     public MessageAdapter(Context context, String userId, List<Message> messages) {
         this.mMessages = messages;
@@ -46,38 +50,58 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
     }
 
     @Override
-    public MessageViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        Context context = parent.getContext();
-        LayoutInflater inflater = LayoutInflater.from(context);
-        View contactView = inflater.inflate(R.layout.item_chat, parent, false);
-
-        MessageViewHolder viewHolder = new MessageViewHolder(contactView);
-        return viewHolder;
+    public int getItemViewType(int position) {
+        Message message = mMessages.get(position);
+        if(message.getId() != null && message.getId().equals(mUserId)){
+            return YOUR_MESSAGE;
+        }
+        else{
+            return OTHER_MESSAGE;
+        }
     }
 
     @Override
-    public void onBindViewHolder(MessageViewHolder holder, int position) {
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        Context context = parent.getContext();
+        LayoutInflater inflater = LayoutInflater.from(context);
+        RecyclerView.ViewHolder holder = null;
+        if(viewType == YOUR_MESSAGE){
+            View contactView = inflater.inflate(R.layout.your_message_layout, parent, false);
+            holder =  new YourMessageViewHolder(contactView, mListener);
+        }
+        else{
+            View contactView = inflater.inflate(R.layout.other_message_layout, parent, false);
+            holder =  new OtherMessageViewHolder(contactView, mListener);
+        }
+
+        return holder;
+    }
+
+
+
+    @Override
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         Message message = mMessages.get(position);
         final boolean isMe = message.getId() != null && message.getId().equals(mUserId);
 
-        if (isMe) {
-            holder.imageMe.setVisibility(View.VISIBLE);
-            holder.imageOther.setVisibility(View.GONE);
-            holder.messageBody.setGravity(Gravity.CENTER_VERTICAL | Gravity.RIGHT);
-            holder.messageText.setBackgroundColor(mContext.getResources().getColor(R.color.yellow_you));
-        } else {
-            holder.imageOther.setVisibility(View.VISIBLE);
-            holder.imageMe.setVisibility(View.GONE);
-            holder.messageBody.setGravity(Gravity.CENTER_VERTICAL | Gravity.LEFT);
-            holder.messageText.setBackgroundColor(mContext.getResources().getColor(R.color.blue_other_person));
-        }
-        if(!message.getImageUrl().equals("")){
+        if(holder instanceof YourMessageViewHolder){
+            Glide.with(mContext).load(getProfileUrl(message.getId())).into(((YourMessageViewHolder) holder).imageMe);
+            ((YourMessageViewHolder) holder).body.setText(message.getMessage());
+
+            /*if(!message.getImageUrl().equals("")){
             holder.mImage.setVisibility(View.VISIBLE);
             Glide.with(mContext).load(getProfileUrl(message.getImageUrl())).into(holder.mImage);
+        }*/
         }
-        final ImageView profileView = isMe ? holder.imageMe : holder.imageOther;
-        Glide.with(mContext).load(getProfileUrl(message.getId())).into(profileView);
-        holder.body.setText(message.getMessage());
+        else{
+            Glide.with(mContext).load(getProfileUrl(message.getId())).into(((OtherMessageViewHolder) holder).imageOther);
+            ((OtherMessageViewHolder) holder).body.setText(message.getMessage());
+            /*if(!message.getImageUrl().equals("")){
+            holder.mImage.setVisibility(View.VISIBLE);
+            Glide.with(mContext).load(getProfileUrl(message.getImageUrl())).into(holder.mImage);
+        }*/
+        }
+
     }
 
     public void setClickListener(MessageLongClickListener itemClickListener) {
@@ -103,34 +127,4 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
         return mMessages.size();
     }
 
-
-    public class MessageViewHolder extends RecyclerView.ViewHolder  implements View.OnLongClickListener{
-        ImageView imageOther;
-        ImageView imageMe;
-        LinearLayout messageBody;
-        RelativeLayout messageText;
-        TextView body;
-        ImageView mImage;
-
-        public MessageViewHolder(View itemView) {
-            super(itemView);
-            imageOther = (ImageView)itemView.findViewById(R.id.ivProfileOther);
-            imageMe = (ImageView)itemView.findViewById(R.id.ivProfileMe);
-            messageBody = (LinearLayout) itemView.findViewById(R.id.ll_message_body);
-            messageText = (RelativeLayout) itemView.findViewById(R.id.rl_message_text);
-            body = (TextView)itemView.findViewById(R.id.tvBody);
-            mImage = (ImageView) itemView.findViewById(R.id.iv_image);
-            imageMe = (ImageView)itemView.findViewById(R.id.ivProfileMe);
-            body.setOnLongClickListener(this);
-        }
-
-        @Override
-        public boolean onLongClick(View view) {
-            if (mListener != null){
-                mListener.onClick(view);
-                return true;
-            }
-            return false;
-        }
-    }
 }

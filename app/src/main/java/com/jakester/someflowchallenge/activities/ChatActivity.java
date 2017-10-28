@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -37,7 +38,7 @@ public class ChatActivity extends AppCompatActivity implements MessageLongClickL
     RecyclerView mRecycler;
     MessageAdapter mAdapter;
     Button mSendButton;
-    String copiedText;
+    Toolbar toolbar;
     ClipboardManager clipboard;
     ClipData clip;
     Runnable interaction;
@@ -46,7 +47,9 @@ public class ChatActivity extends AppCompatActivity implements MessageLongClickL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
-
+        toolbar = (Toolbar)findViewById(R.id.toolbar);
+        toolbar.setTitle("Chat");
+        setSupportActionBar(toolbar);
         mChatEdit = (EditText) findViewById(R.id.et_chat);
 
         mRecycler = (RecyclerView) findViewById(R.id.rv_chat);
@@ -93,7 +96,7 @@ public class ChatActivity extends AppCompatActivity implements MessageLongClickL
                 sendMessage(mChatEdit.getText().toString(), true);
                 mChatEdit.setText("");
                 hideSoftKeyboard(ChatActivity.this);
-                new Handler().postDelayed(interaction, 3000L);
+                new Handler().postDelayed(interaction, 5000L);
             }
         });
 
