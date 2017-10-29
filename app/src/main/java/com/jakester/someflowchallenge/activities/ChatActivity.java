@@ -13,6 +13,8 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,14 +27,13 @@ import android.widget.Toast;
 
 import com.jakester.someflowchallenge.R;
 import com.jakester.someflowchallenge.adapters.MessageAdapter;
-import com.jakester.someflowchallenge.listeners.MessageLongClickListener;
 import com.jakester.someflowchallenge.managers.InteractiveChatManager;
 import com.jakester.someflowchallenge.managers.UserManager;
 import com.jakester.someflowchallenge.models.Message;
 
 import java.util.ArrayList;
 
-public class ChatActivity extends AppCompatActivity implements MessageLongClickListener {
+public class ChatActivity extends AppCompatActivity{
 
     EditText mChatEdit;
     RecyclerView mRecycler;
@@ -59,7 +60,7 @@ public class ChatActivity extends AppCompatActivity implements MessageLongClickL
         mAdapter = new MessageAdapter(this, UserManager.getInstance().getUserId(),
                 new ArrayList<Message>());
 
-        mAdapter.setClickListener(this);
+        //mAdapter.setClickListener(this);
 
         mRecycler.setAdapter(mAdapter);
 
@@ -72,21 +73,6 @@ public class ChatActivity extends AppCompatActivity implements MessageLongClickL
             }
         };
 
-        /*mRecycler.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                if(view.getId() == R.id.tvBody){
-
-                    clip = ClipData.newPlainText("message", ((TextView)view).getText().toString());
-
-                    Toast.makeText(ChatActivity.this,"Text Copied", Toast.LENGTH_SHORT).show();
-
-                    return true;
-                }
-
-                return false;
-            }
-        });*/
 
         mSendButton = (Button) findViewById(R.id.btn_send);
 
@@ -102,16 +88,6 @@ public class ChatActivity extends AppCompatActivity implements MessageLongClickL
 
         setupUI(mRecycler);
 
-        mChatEdit.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                ClipData.Item item = clip.getItemAt(0);
-                if(item != null){
-                    mChatEdit.setText(item.getText());
-                }
-                return false;
-            }
-        });
     }
 
     private void sendMessage(String chat, boolean fromUser){
@@ -148,15 +124,20 @@ public class ChatActivity extends AppCompatActivity implements MessageLongClickL
                 activity.getCurrentFocus().getWindowToken(), 0);
     }
 
+
     @Override
-    public void onClick(View view) {
-        if(view.getId() == R.id.tvBody){
-
-            clip = ClipData.newPlainText("message", ((TextView)view).getText().toString());
-
-            Toast.makeText(ChatActivity.this,"Text Copied", Toast.LENGTH_SHORT).show();
-
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.analytics_menu) {
+            Intent i = new Intent(ChatActivity.this, AnalyticsActivity.class);
+            startActivity(i);
         }
+        return super.onOptionsItemSelected(item);
+    }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_chat, menu);
+        return true;
     }
 }

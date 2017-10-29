@@ -19,6 +19,7 @@
             android:textSize="18sp"
             android:layout_width="wrap_content"
             android:gravity="right"
+            android:textIsSelectable="true"
             android:maxWidth="260dp"
             android:layout_height="wrap_content"/>
 

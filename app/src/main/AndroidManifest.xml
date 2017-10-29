@@ -19,8 +19,10 @@
             </intent-filter>
         </activity>
         <activity android:name=".activities.LogInActivity" />
-        <activity android:name=".activities.ChatActivity"
-            android:windowSoftInputMode="stateVisible|adjustResize"/>
+        <activity
+            android:name=".activities.ChatActivity"
+            android:windowSoftInputMode="stateVisible|adjustResize" />
+        <activity android:name=".activities.AnalyticsActivity"></activity>
     </application>
 
 </manifest>

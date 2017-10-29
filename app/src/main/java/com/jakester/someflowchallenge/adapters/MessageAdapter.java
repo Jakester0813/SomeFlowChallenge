@@ -16,7 +16,6 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.jakester.someflowchallenge.R;
-import com.jakester.someflowchallenge.listeners.MessageLongClickListener;
 import com.jakester.someflowchallenge.models.Message;
 import com.jakester.someflowchallenge.viewholders.OtherMessageViewHolder;
 import com.jakester.someflowchallenge.viewholders.YourMessageViewHolder;
@@ -34,7 +33,6 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private List<Message> mMessages;
     private Context mContext;
     private String mUserId;
-    private MessageLongClickListener mListener;
     private int YOUR_MESSAGE = 0;
     private int OTHER_MESSAGE = 1;
 
@@ -67,11 +65,11 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         RecyclerView.ViewHolder holder = null;
         if(viewType == YOUR_MESSAGE){
             View contactView = inflater.inflate(R.layout.your_message_layout, parent, false);
-            holder =  new YourMessageViewHolder(contactView, mListener);
+            holder =  new YourMessageViewHolder(contactView);
         }
         else{
             View contactView = inflater.inflate(R.layout.other_message_layout, parent, false);
-            holder =  new OtherMessageViewHolder(contactView, mListener);
+            holder =  new OtherMessageViewHolder(contactView);
         }
 
         return holder;
@@ -104,9 +102,6 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     }
 
-    public void setClickListener(MessageLongClickListener itemClickListener) {
-        this.mListener = itemClickListener;
-    }
 
     // Create a gravatar image based on the hash value obtained from userId
     private static String getProfileUrl(final String userId) {
