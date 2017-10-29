@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/chat_menu"
-        android:icon="@drawable/ic_pie_chart_full"
+        android:icon="@drawable/ic_chat"
         android:title="@string/chat_text"
         app:showAsAction="always"/>
 
