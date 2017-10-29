@@ -9,6 +9,7 @@
     <string name="register_button">Register</string>
     <string name="send_button">Send</string>
     <string name="analytics_text">Analytics</string>
+    <string name="chat_text">Chat</string>
     <string name="forgot_password">Forgot your Password?</string>
     <string name="company">Vorwärts</string>
 </resources>
