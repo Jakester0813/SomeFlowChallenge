@@ -10,4 +10,12 @@
     <color name="yellow_you">#FFEB3B</color>
     <color name="blue_other_person">#03A9F4</color>
     <color name="dividerColor">#BDBDBD</color>
+    <!--Chart colors-->
+    <color name="ps4">#012A9B</color>
+    <color name="nintendo_switch">#D30013</color>
+    <color name="xbox_one">#57AF67</color>
+
+    <color name="pacman">#FFFB00</color>
+    <color name="not_pacman">#FFFFFF</color>
+
 </resources>

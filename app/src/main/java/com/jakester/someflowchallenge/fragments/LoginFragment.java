@@ -100,12 +100,12 @@ public class LoginFragment extends BaseFragment {
                     .addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
+                            mProgressBar.setVisibility(View.GONE);
+                            mLoginButton.setVisibility(View.VISIBLE);
                             if (task.isSuccessful()) {
                                 // Sign in success, update UI with the signed-in user's information
                                 Log.d(TAG, "signInWithEmail:success");
                                 UserManager.getInstance().setUser(task.getResult().getUser());
-                                mProgressBar.setVisibility(View.GONE);
-                                mLoginButton.setVisibility(View.VISIBLE);
                                 goToChat();
                             } else {
                                 try

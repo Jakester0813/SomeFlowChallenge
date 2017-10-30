@@ -12,4 +12,9 @@
     <string name="chat_text">Chat</string>
     <string name="forgot_password">Forgot your Password?</string>
     <string name="company">Vorwärts</string>
+    <string name="vertical_bar">Vertical Bar</string>
+    <string name="horizontal_bar">Horizontal Bar</string>
+    <string name="one_line">One Line</string>
+    <string name="two_line">Two Line</string>
+    <string name="pie_chart">Pie Chart</string>
 </resources>
