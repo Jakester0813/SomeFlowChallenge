@@ -26,6 +26,7 @@ import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
 import com.jakester.someflowchallenge.R;
 import com.jakester.someflowchallenge.managers.SharedPrefsManager;
+import com.jakester.someflowchallenge.managers.UserManager;
 
 import java.util.concurrent.TimeUnit;
 
@@ -58,6 +59,7 @@ public class RegisterFragment extends BaseFragment {
         mRetypePassword = (EditText) v.findViewById(R.id.et_repeat_password);
         mNumberEdit = (EditText) v.findViewById(R.id.et_phone_number);
         mRegisterButton = (Button) v.findViewById(R.id.bt_register);
+        mProgressBar = (ProgressBar) v.findViewById(R.id.pb_login);
         mRegisterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -83,7 +85,14 @@ public class RegisterFragment extends BaseFragment {
                 }
             }
         });
+        setCallback();
         return v;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        setCallback();
     }
 
     private void registerUser(String email, String password, final String number){
@@ -95,6 +104,7 @@ public class RegisterFragment extends BaseFragment {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "createUserWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
+                            UserManager.getInstance().setUser(user);
                             verifyNumber(number);
                             //updateUI(user);
                         } else {
@@ -132,10 +142,6 @@ public class RegisterFragment extends BaseFragment {
                 //     user action.
                 Log.d(TAG, "onVerificationCompleted:" + credential);
                 SharedPrefsManager.getInstance(getActivity()).setSMS(credential.getSmsCode());
-                Toast.makeText(getActivity(), "Registration compeleted!",
-                        Toast.LENGTH_SHORT).show();
-                mProgressBar.setVisibility(View.GONE);
-                mRegisterButton.setVisibility(View.VISIBLE);
                 //signInWithPhoneAuthCredential(credential);
             }
 
@@ -165,9 +171,11 @@ public class RegisterFragment extends BaseFragment {
                 // by combining the code with a verification ID.
                 Log.d(TAG, "onCodeSent:" + verificationId);
                 SharedPrefsManager.getInstance(getActivity()).setVerificationCode(verificationId);
-                // Save verification ID and resending token so we can use them later
-                //mVerificationId = verificationId;
-                //mResendToken = token;
+                Toast.makeText(getActivity(), "Registration compeleted!",
+                        Toast.LENGTH_SHORT).show();
+                mProgressBar.setVisibility(View.GONE);
+                mRegisterButton.setVisibility(View.VISIBLE);
+                goToChat();
 
                 // ...
             }
